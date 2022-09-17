@@ -1,9 +1,11 @@
+const {Server: HTTPServer} = require('http')
 const express = require('express');
 const fs = require('fs')
 const handlebars = require('express-handlebars')
 const app = express()
 const port = 8080;
 const productsRouter = require('./products')
+const {Server: SocketServer} = require('socket.io')
 
 
 
@@ -29,10 +31,15 @@ app.set("view engine", "hbs");
 app.get("/form", (req, res) => {
   res.render("main", { layout: "form" });  
 });
-
-
 app.use('/', productsRouter);
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+const httpServer = HTTPServer(app);
+
+const io = new SocketServer(httpServer);
+
+app.use(express.static('views'))
 
 
+httpServer.listen(8080,()=>{
+  console.log(`Server http conectado`)
+})
