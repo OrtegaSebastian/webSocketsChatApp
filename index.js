@@ -12,7 +12,7 @@ const {Server: SocketServer} = require('socket.io')
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
+const Mensajes = [];
 // app.set("views", __dirname + "/views");
 // app.set("view engine", "hbs");
 
@@ -36,6 +36,20 @@ app.use('/', productsRouter);
 const httpServer = HTTPServer(app);
 
 const io = new SocketServer(httpServer);
+
+
+io.on('connection', (socket)=>{
+  socket.emit('entrada', 'te has conectado ')
+
+  socket.on('mensaje', (data)=>{
+    console.log(data)
+    Mensajes.push({socketid: socket.id, mensaje: data})
+    io.sockets.emit('listaMensajes', Mensajes)
+  })
+})
+
+
+
 
 app.use(express.static('views'))
 

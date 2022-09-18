@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    const socket =  io.connect()
+
+
+
+    socket.on('listaMensajes',(data)=>{
+        console.log(data)
+        const MappedCont = data.map(msg =>`[${msg.socketid}]: ${msg.mensaje}`).join('<br>')
+        document.querySelector('div').innerHTML = MappedCont
+    })
+
+    </script>
+
+    <title>Chat</title>
+    <h1>Chatting</h1>
+    <input type="text"><button>Enviar mensaje</button>
+    <div id="listaMensajes"></div>
+
+</head>
+<body>
+    
+</body>
+</html> 
+ 
+ 
