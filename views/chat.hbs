@@ -1,32 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/styles.css">
     <script src="/socket.io/socket.io.js"></script>
     <script>
-    const socket =  io.connect()
-
-
-
-    socket.on('listaMensajes',(data)=>{
-        console.log(data)
-        const MappedCont = data.map(msg =>`[${msg.socketid}]: ${msg.mensaje}`).join('<br>')
-        document.querySelector('div').innerHTML = MappedCont
-    })
-
+        const socket = io.connect()
     </script>
 
     <title>Chat</title>
     <h1>Chatting</h1>
-    <input type="text"><button>Enviar mensaje</button>
-    <div id="listaMensajes"></div>
+
+<body>
+
+    <div id="chat-container">
+        <div id="chat-window">
+            <div id="output"></div>
+            <div id="actions"></div>
+        </div>
+        <input type="text" id="username" placeholder="Username">
+        <input type="text" id="message" placeholder="Message">
+    </div>
+    <button id="send">Enviar mensaje</button>
+    </div>
+</body>
+
+
+<script>
+    let message = document.getElementById('message')
+    let username = document.getElementById('username')
+    let btn = document.getElementById('send')
+    let output = document.getElementById('output')
+    let actions = document.getElementById('actions')
+
+    btn.addEventListener('click', function () {
+        socket.emit('chat:message', {
+            username: username.value,
+            message: message.value
+        })
+    })
+    socket.on('chat:message', function (data) {
+        output.innerHTML += `<p>
+            <strong>${data.username} </strong>: ${data.message}
+            </p>`
+    })    
+</script>
 
 </head>
-<body>
-    
-</body>
-</html> 
- 
- 
+
+</html>

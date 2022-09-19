@@ -41,10 +41,8 @@ const io = new SocketServer(httpServer);
 io.on('connection', (socket)=>{
   socket.emit('entrada', 'te has conectado ')
 
-  socket.on('mensaje', (data)=>{
-    console.log(data)
-    Mensajes.push({socketid: socket.id, mensaje: data})
-    io.sockets.emit('listaMensajes', Mensajes)
+  socket.on('chat:message', (data)=>{
+  io.sockets.emit('chat:message', data)  
   })
 })
 
