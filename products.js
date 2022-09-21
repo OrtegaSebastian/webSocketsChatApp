@@ -8,7 +8,7 @@ const router = Router();
 
 const Products = [];
 
-const array = [
+const dataArray = [
   {
     name: "Teclado Midi - Arturia Micro Freak",
     price: 250,
