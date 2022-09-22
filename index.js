@@ -9,6 +9,8 @@ const {Server: SocketServer} = require('socket.io');
 const httpServer = HTTPServer(app);
 const { render } = require('express/lib/response');
 const io = new SocketServer(httpServer)
+const moment = require ("moment");
+
 
 
 app.use(express.json());
@@ -59,6 +61,8 @@ io.on('chat', (socket)=>{
   socket.emit('message_client', data)  
   })
 })
+let date = moment().format("DD/MM/YYYY hh:mm:ss")
+
 
 const msn = [];
 io.on("dataMsn",(data)=>{
